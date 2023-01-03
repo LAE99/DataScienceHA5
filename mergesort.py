@@ -1,51 +1,59 @@
-def ASSIGNMENT(new_list, i, old_list, j):
-    new_list[i] = old_list[j]
+def new_value_assignment(new_list, index_new_list, old_list, index_old_list):
+    new_list[index_new_list] = old_list[index_old_list]
 
 
-def mergeSort(list_to_sort_by_merge):
-    if (
-        len(list_to_sort_by_merge) > 1
-        and not len(list_to_sort_by_merge) < 1
-        and len(list_to_sort_by_merge) != 0
-    ):
-        mid = len(list_to_sort_by_merge) // 2
-        left = list_to_sort_by_merge[:mid]
-        right = list_to_sort_by_merge[mid:]
+def merge_sort(list_to_sort_by_merge):
+    if (len(list_to_sort_by_merge) > 1):
+        middle_index = len(list_to_sort_by_merge) // 2 #split list in two sub lists in the middle
+        left_value_list = list_to_sort_by_merge[:mid]
+        right_value_list = list_to_sort_by_merge[mid:]
 
-        mergeSort(left)
-        mergeSort(right)
+        merge_sort(left_value_list) #recursive application of merge_sort function for left and right list
+        merge_sort(right_value_list)
 
-        l = 0
-        r = 0
-        i = 0
+        index_left_list = 0
+        index_right_list = 0
+        index_list_to_sort = 0
 
-        while l < len(left) and r < len(right):
-            if left[l] <= right[r]:
-                ASSIGNMENT(new_list=list_to_sort_by_merge, i=i, old_list=left, j=l)
-                l += 1
+        while index_left_list < len(left_value_list) and index_right_list < len(right_value_list): #the values of the two lsit are compared and the lower is added to the list 
+            if left_value_list[index_left_list] <= right_value_list[index_right_list]: 
+                new_value_assignment(new_list=list_to_sort_by_merge, 
+                                     index_new_list=index_list_to_sort, 
+                                     old_list=left_value_list, 
+                                     index_old_list=index_left_list)
+                index_left_list += 1 # the index of the left list with the lower value is increased so that the value of the right lit which is higher can compared with the next value of the left list
+            
             else:
-                ASSIGNMENT(new_list=list_to_sort_by_merge, i=i, old_list=right, j=r)
-                r += 1
-            i += 1
+                new_value_assignment(new_list=list_to_sort_by_merge, 
+                                     index_new_list=index_list_to_sort, 
+                                     old_list=right_value_list, 
+                                     index_old_list=index_right_list) #the value of the right list is lower so this value is added to the original list and the right list index is increased
+                
+                index_right_list += 1
+            index_list_to_sort += 1 #index at which the lower value is addded is increased with each round
+        
+        #the values which didn't added before now will be addded
+        while index_left_list < len(left_value_list): 
+            list_to_sort_by_merge[index_list_to_sort] = left_value_list[index_left_list]
+            index_left_list += 1
+            index_list_to_sort += 1
 
-        while l < len(left):
-            list_to_sort_by_merge[i] = left[l]
-            l += 1
-            i += 1
-
-        while r < len(right):
-            list_to_sort_by_merge[i] = right[r]
-            r += 1
-            i += 1
+        while index_right_list < len(right_value_list):
+            list_to_sort_by_merge[index_list_to_sort] = right_value_list[index_right_list]
+            index_right_list += 1
+            index_list_to_sort += 1
 
 
 import matplotlib.pyplot as plt
 
 my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
-x = range(len(my_list))
-plt.plot(x, my_list)
+x_value_list = range(len(my_list))
+
+plt.plot(x_value_list, my_list)
 plt.show()
-mergeSort(my_list)
-x = range(len(my_list))
-plt.plot(x, my_list)
+
+merge_sort(my_list)
+x_value_list = range(len(my_list))
+
+plt.plot(x_value_list, my_list)
 plt.show()
