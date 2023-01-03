@@ -43,9 +43,18 @@ import matplotlib.pyplot as plt
 
 my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
 x = range(len(my_list))
-plt.plot(x, my_list)
-plt.show()
+fig, ax = plt.subplots(nrows=1, ncols=1)
+
+ax.plot(x, my_list, label = "unsorted")
+#plt.show()
 mergeSort(my_list)
 x = range(len(my_list))
-plt.plot(x, my_list)
+ax.plot(x, my_list, label = "sorted")
+
+ax.set_xlabel('Indices of list')
+ax.set_ylabel('Value at index of list')
+fig.suptitle('Values of List')
+ax.legend()
+plt.ylim([0,100])
+plt.xlim([0,9])
 plt.show()
